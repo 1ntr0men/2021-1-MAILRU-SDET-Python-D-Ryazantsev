@@ -6,17 +6,19 @@ import pytest
 
 
 class TestOne(BaseCase):
-
+    # @pytest.mark.skip("SKIP")
     def test_login(self):
         assert "https://target.my.com/dashboard" in self.driver.current_url
 
+    # @pytest.mark.skip("SKIP")
     def test_logout(self):
-        time.sleep(3)  # извините за sleep в следующей работе их не будет)
+        time.sleep(5)  # извините за sleep в следующей работе их не будет)
         self.click(basic_locators.LOGOUT_LOCATOR)
         time.sleep(3)
         self.click(basic_locators.LOGOUT_BUTTON_LOCATOR)
         assert "https://target.my.com/" in self.driver.current_url
 
+    # @pytest.mark.skip("SKIP")
     @pytest.mark.parametrize(
         "buttons, url",
         [
@@ -33,6 +35,7 @@ class TestOne(BaseCase):
         time.sleep(3)
         assert url in self.driver.current_url
 
+    # @pytest.mark.skip("SKIP")
     def test_edit_info(self):
         self.click(basic_locators.GO_TO_PROFILE_LOCATOR)
 
@@ -41,6 +44,8 @@ class TestOne(BaseCase):
         self.write("qwe@qwe.qwe", basic_locators.EMAIL_LOCATOR)
 
         self.click(basic_locators.SAVE_BUTTON_LOCATOR)
+
+        self.update()
 
         fio_line = self.get_info(basic_locators.FIO_LOCATOR)
         tel_line = self.get_info(basic_locators.TEL_LOCATOR)

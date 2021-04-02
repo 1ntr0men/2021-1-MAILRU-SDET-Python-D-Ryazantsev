@@ -11,8 +11,8 @@ class BaseCase:
     driver = None
 
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, driver):
-        self.driver = driver
+    def setup(self, logined_driver):
+        self.driver = logined_driver
 
     def find(self, locator, timeout=None):
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
@@ -41,3 +41,6 @@ class BaseCase:
         if timeout is None:
             timeout = 10
         return WebDriverWait(self.driver, timeout=timeout)
+
+    def update(self):
+        self.driver.refresh()

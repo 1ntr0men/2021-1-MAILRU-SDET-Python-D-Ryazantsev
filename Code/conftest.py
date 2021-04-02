@@ -8,6 +8,13 @@ def driver():
     browser = webdriver.Chrome(executable_path="C:\\Users\\intromen\\Documents\\Projects\\Mail\\chromedriver")
     browser.get("https://target.my.com/")
     browser.maximize_window()
+    yield browser
+    browser.close()
+
+
+@pytest.fixture(scope="function")
+def logined_driver(driver):
+    browser = driver
 
     sign_in_button = browser.find_element(*basic_locators.SIGN_IN_LOCATOR)
     sign_in_button.click()
@@ -23,6 +30,4 @@ def driver():
 
     go_button = browser.find_element(*basic_locators.GO_LOCATOR)
     go_button.click()
-
     yield browser
-    browser.close()
