@@ -1,0 +1,11 @@
+pytest
+pytest-xdist
+selenium
+os
+time
+logging
+allure-pytest
+shutil
+webdriver-manager
+requests
+appium-python-client
