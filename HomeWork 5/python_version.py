@@ -37,14 +37,11 @@ def top_ten_requests():
 
 def top_five_400():
     urls = []
-    armstrong = []
     with open("access.log", "r") as f:
         for line in f.readlines():
             l = line.split()
             if l[8][0] == "4":
                 urls.append([l[6], l[8], l[9], l[0]])
-                armstrong.append(int(l[9]))
-        print(max(armstrong))
     return sorted(urls, key=lambda i: int(i[2]), reverse=True)[:5]
 
 
@@ -57,11 +54,10 @@ def top_five_500():
                 if l[0] in [_[0] for _ in urls]:
                     for k in range(len(urls)):
                         if urls[k][0] == l[0]:
-                            urls[k][2] += 1
+                            urls[k][1] += 1
                 else:
-                    urls.append([l[0], l[9], 1])
-
-    return list(map(lambda _: _[:2], sorted(urls, key=lambda i: i[2], reverse=True)[:5]))
+                    urls.append([l[0], 1])
+    return sorted(urls, key=lambda i: i[1], reverse=True)[:5]
 
 
 print(count_of_strings())
