@@ -11,6 +11,13 @@
 ```bash
    awk 'BEGIN {req[1] = "GET"; req[2] = "POST"; req[3] = "PUT"; req[4] = "PATCH"; req[5] = "HEAD"; req[6] = "DELETE"; req[7] = "TRACE"; ans[1] = 0; ans[2] = 0; ans[3] = 0; ans[4] = 0; ans[5] = 0; ans[6] = 0; ans[7] = 0} {for (i = 1; i < 8; i++) {if (index($6, req[i]) != 0) ans[i]+=1}} END{for (i = 1; i < 8; i++) {print req[i] " : " ans[i]}}' access.log
 ```
+Я очень долго разбирался с этими массивами, циклами и писал первый вариант, но через пять минут я придумал тупую и короткую версию
+Мне жалко удалять первый, поэтому я оставлю оба)
+```bash
+    awk '{print $6}' access.log| sort |uniq -c
+```
+
+Первый вариант
 
 	GET : 122096
     POST : 102504
@@ -19,6 +26,14 @@
     HEAD : 528
     DELETE : 0
     TRACE : 0
+    
+Второй вариант
+
+    1 "g369g=%40eval%01%28base64_decode%28%24_POST%5Bz0%5D%29%29%3B&z0=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwiMCIpO0BzZXRfdGltZV9saW1pdCgwKTtAc2V0X21hZ2ljX3F1b3Rlc19ydW50aW1lKDApO2VjaG8oIi0%2bfCIpOztlY2hvKCJlNTBiNWYyYjRmNjc1NGFmMDljYzg0NWI4YjU4ZTA3NiIpOztlY2hvKCJ8PC0iKTs7ZGllKCk7GET
+    122095 "GET
+    528 "HEAD
+    102503 "POST
+    6 "PUT
   
 ###3) Топ 10 самых частых запросов
 
