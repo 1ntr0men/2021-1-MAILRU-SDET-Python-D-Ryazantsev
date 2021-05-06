@@ -15,9 +15,10 @@ def count_of_strings():
 def count_of_get_etc():
     type = {"GET": 0, "POST": 0, "PUT": 0, "PATCH": 0, "HEAD": 0, "DELETE": 0, "TRACE": 0}
     with open("access.log", "r") as f:
-        for _ in f.readlines():
+        for line in f.readlines():
+            req = line.split()[5]
             for i in type:
-                if i in _:
+                if i in req:
                     type[i] += 1
 
     return type

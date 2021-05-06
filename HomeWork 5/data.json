@@ -2,10 +2,10 @@
   "First number": 0,
   "Second number": {
     "GET": 122096,
-    "POST": 102544,
-    "PUT": 18,
+    "POST": 102504,
+    "PUT": 6,
     "PATCH": 0,
-    "HEAD": 529,
+    "HEAD": 528,
     "DELETE": 0,
     "TRACE": 0
   },
