@@ -4,6 +4,10 @@ from requests.cookies import cookiejar_from_dict
 from files.files_path import files_path
 
 
+class WrongResponseCode(Exception):
+    pass
+
+
 class ApiClient:
 
     def __init__(self, base_url):
@@ -56,8 +60,11 @@ class ApiClient:
         }
 
         send_image = self.session.post("https://target.my.com/api/v2/content/static.json", headers=headers, data=data,
-                                   files=files).json()
-        return send_image["id"]
+                                       files=files)
+        if send_image.status_code == 200:
+            return send_image.json()["id"]
+        else:
+            assert WrongResponseCode
 
     def post_topic(self):
         image600 = self.post_set_image(600)
@@ -113,25 +120,32 @@ class ApiClient:
         headers = {
             "X-CSRFToken": self.get_token()
         }
-        send_company = self.session.post("https://target.my.com/api/v2/campaigns.json", json=request_payload,
-                                         headers=headers)
-        return send_company.json()
+        send_campaign = self.session.post("https://target.my.com/api/v2/campaigns.json", json=request_payload,
+                                          headers=headers)
+        if send_campaign.status_code == 200:
+            return send_campaign.json()
+        else:
+            assert WrongResponseCode
 
     def get_check_company(self, id):
-        companys = self.session.get("https://target.my.com/api/v2/campaigns.json?_status=active").json()
-        for i in companys["items"]:
-            print(i["id"])
+        compaigns = self.session.get("https://target.my.com/api/v2/campaigns.json?_status=active").json()
+        for i in compaigns["items"]:
             if i["id"] == id:
                 return True
         return False
 
-    def post_delete_company(self, id):
+    def post_delete_compaign(self, id):
         request_payload = {"status": "deleted"}
         headers = {
             "X-CSRFToken": self.get_token()
         }
-        print(self.session.post(f"https://target.my.com/api/v2/campaigns/{id}.json", json=request_payload,
-                                headers=headers).text)
+        delete_compaign = self.session.post(f"https://target.my.com/api/v2/campaigns/{id}.json", json=request_payload,
+                                            headers=headers)
+
+        if delete_compaign.status_code == 200:
+            return delete_compaign.json()
+        else:
+            assert WrongResponseCode
 
     def post_create_segment(self):
 
@@ -143,14 +157,26 @@ class ApiClient:
         }
         segment = self.session.post("https://target.my.com/api/v2/remarketing/segments.json", json=request_payload,
                                     headers=headers)
-        return segment.json()["id"]
+        if segment.status_code == 200:
+            return segment.json()["id"]
+        else:
+            assert WrongResponseCode
 
     def get_check_segment(self, id):
-        segments = self.session.get(f"https://target.my.com/api/v2/remarketing/segments.json?_id={id}").json()
-        return bool(segments["count"])
+        segment = self.session.get(f"https://target.my.com/api/v2/remarketing/segments.json?_id={id}")
+        if segment.status_code == 200:  # к сожалению, в качестве проверки статус код не подходит,
+            # ибо в любом случае он 200, но я все равно проверяю корректен ли запрос
+            return bool(segment.json()["count"])
+        else:
+            assert WrongResponseCode
 
     def delete_segment(self, id):
         headers = {
             "X-CSRFToken": self.get_token()
         }
-        self.session.delete(f"https://target.my.com/api/v2/remarketing/segments/{id}.json", headers=headers)
+        delete_segment = self.session.delete(f"https://target.my.com/api/v2/remarketing/segments/{id}.json",
+                                             headers=headers)
+        if delete_segment.status_code == 200:
+            return
+        else:
+            assert WrongResponseCode

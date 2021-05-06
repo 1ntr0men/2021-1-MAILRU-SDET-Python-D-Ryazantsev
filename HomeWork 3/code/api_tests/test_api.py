@@ -8,7 +8,7 @@ class TestApi(BaseApi):
     def test_create_topic(self):
         new_company_id = self.api_client.post_topic()["id"]
         assert self.api_client.get_check_company(new_company_id)
-        self.api_client.post_delete_company(new_company_id)
+        self.api_client.post_delete_compaign(new_company_id)
 
     @pytest.mark.API
     def test_create_segment(self):
