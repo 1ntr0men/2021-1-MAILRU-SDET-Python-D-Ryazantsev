@@ -127,23 +127,23 @@ class ApiClient:
         else:
             assert WrongResponseCode
 
-    def get_check_company(self, id):
-        compaigns = self.session.get("https://target.my.com/api/v2/campaigns.json?_status=active").json()
-        for i in compaigns["items"]:
+    def get_check_campaign(self, id):
+        campaigns = self.session.get("https://target.my.com/api/v2/campaigns.json?_status=active").json()
+        for i in campaigns["items"]:
             if i["id"] == id:
                 return True
         return False
 
-    def post_delete_compaign(self, id):
+    def post_delete_campaign(self, id):
         request_payload = {"status": "deleted"}
         headers = {
             "X-CSRFToken": self.get_token()
         }
-        delete_compaign = self.session.post(f"https://target.my.com/api/v2/campaigns/{id}.json", json=request_payload,
+        delete_campaign = self.session.post(f"https://target.my.com/api/v2/campaigns/{id}.json", json=request_payload,
                                             headers=headers)
 
-        if delete_compaign.status_code == 200:
-            return delete_compaign.json()
+        if delete_campaign.status_code == 200:
+            return delete_campaign.json()
         else:
             assert WrongResponseCode
 
