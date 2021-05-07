@@ -7,3 +7,4 @@ logging
 allure-pytest
 shutil
 webdriver-manager
+requests
