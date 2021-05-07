@@ -7,13 +7,15 @@ class MainPage(BasePage):
     locators = MainPageANDROIDLocator()
 
     def get_title(self, direction):
-        self.swipe_to_element(self.locators.CARD_TITLE_LOCATOR, 2, direction)
+        self.swipe_to_element(self.locators.CARD_TITLE_LOCATOR, 3, direction)
         return self.get_text(self.locators.CARD_TITLE_LOCATOR)
 
     def click_on_carousel(self, text):
+        self.swipe("up")
+        self.swipe_to_element(self.locators.SUGGEST_LIST_LOCATOR, 3, "up")
         locator_of_element_in_carousel = (self.locators.ELEMENT_IN_CARUSEL_LOCATOR[0],
                                           self.locators.ELEMENT_IN_CARUSEL_LOCATOR[1].format(text))
-        self.swipe_to_element_in_carousel(locator_of_element_in_carousel, 5)
+        self.swipe_to_element_in_carousel(locator_of_element_in_carousel, 1)
         self.click(locator_of_element_in_carousel)
 
     def get_answer(self):

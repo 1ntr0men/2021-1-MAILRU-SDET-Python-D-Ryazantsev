@@ -1,4 +1,5 @@
 import logging
+
 import allure
 
 from appium.webdriver.common.touch_action import TouchAction
@@ -61,15 +62,6 @@ class BasePage(object):
         return element.location
 
     def swipe(self, direction, swipetime=200):
-        """
-        Базовый метод свайпа по вертикали
-        Описание работы:
-        1. узнаем размер окна телефона
-        2. Задаем за X - центр нашего экрана
-        3. Указываем координаты откуда и куда делать свайп
-        4. TouchAction нажимает на указанные стартовые координаты, немного ждет и передвигает нас из одной точки в другую.
-        5. release() наши пальцы с экрана, а perform() выполняет всю эту цепочку команд.
-        """
         action = TouchAction(self.driver)
         dimension = self.driver.get_window_size()
         x = int(dimension['width'] / 2)
@@ -78,7 +70,7 @@ class BasePage(object):
             end_y = int(dimension['height'] * 0.2)
         elif direction == "down":
             start_y = int(dimension['height'] * 0.2)
-            end_y = int(dimension['height'] * 0.4)
+            end_y = int(dimension['height'] * 0.3)
         action. \
             press(x=x, y=start_y). \
             wait(ms=swipetime). \
@@ -87,10 +79,6 @@ class BasePage(object):
             perform()
 
     def swipe_to_element(self, locator, max_swipes, direction):
-        """
-        :param locator: локатор, который мы ищем
-        :param max_swipes: количество свайпов до момента, пока тест не перестанет свайпать вверх
-        """
         already_swiped = 0
         while len(self.driver.find_elements(*locator)) == 0:
             if already_swiped > max_swipes:
@@ -99,18 +87,9 @@ class BasePage(object):
             already_swiped += 1
 
     def swipe_left(self, y, swipetime=200):
-        """
-        Базовый метод свайпа по вертикали
-        Описание работы:
-        1. узнаем размер окна телефона
-        2. Задаем за X - центр нашего экрана
-        3. Указываем координаты откуда и куда делать свайп
-        4. TouchAction нажимает на указанные стартовые координаты, немного ждет и передвигает нас из одной точки в другую.
-        5. release() наши пальцы с экрана, а perform() выполняет всю эту цепочку команд.
-        """
         action = TouchAction(self.driver)
         dimension = self.driver.get_window_size()
-        start_x = int(dimension['width'] * 0.8)
+        start_x = int(dimension['width'] * 0.4)
         end_x = int(dimension['width'] * 0.2)
         action. \
             press(x=start_x, y=y). \
@@ -120,10 +99,6 @@ class BasePage(object):
             perform()
 
     def swipe_to_element_in_carousel(self, locator, max_swipes):
-        """
-        :param locator: локатор, который мы ищем
-        :param max_swipes: количество свайпов до момента, пока тест не перестанет свайпать вверх
-        """
         self.swipe_to_element(self.locators.SUGGEST_LIST_LOCATOR, 2, "up")
         y = self.get_bounds(self.locators.SUGGEST_LIST_LOCATOR)["y"] + 10
         already_swiped = 0

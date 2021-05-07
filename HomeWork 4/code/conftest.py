@@ -31,12 +31,11 @@ def pytest_configure(config):
     else:
         base_test_dir = '/tmp/tests'
 
-    if not hasattr(config, 'workerinput'):  # execute only once on main worker
+    if not hasattr(config, 'workerinput'):
         if os.path.exists(base_test_dir):
             shutil.rmtree(base_test_dir)
         os.makedirs(base_test_dir)
 
-    # save to config for all workers
     config.base_test_dir = base_test_dir
 
 
@@ -82,22 +81,14 @@ def skip_by_platform(request, config):
 
 @pytest.fixture(scope='session', autouse=True)
 def add_allure_environment_property(request, config):
-    """
-    В зависимости от типа девайса добавляем в наши environment аллюра
-    environment.properties должен лежать внутри директории файлов allure в виде словаря
-    """
     alluredir = request.config.getoption('--alluredir')
     if alluredir:
         env_props = dict()
-        if config['device_os'] in ['web', 'mw']:
-            env_props['Browser'] = 'Chrome'
-        else:
-            env_props['Appium'] = '1.20'
-            env_props['Android_emulator'] = '8.1'
+        env_props['Appium'] = '1.20'
+        env_props['Android_emulator'] = '8.1'
         if not os.path.exists(alluredir):
             os.makedirs(alluredir)
         allure_env_path = os.path.join(alluredir, 'environment.properties')
-
         with open(allure_env_path, 'w') as f:
             for key, value in list(env_props.items()):
                 f.write(f'{key}={value}\n')

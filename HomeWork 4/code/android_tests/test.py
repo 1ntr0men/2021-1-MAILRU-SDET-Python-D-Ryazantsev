@@ -8,8 +8,8 @@ class TestMarussia(BaseCase):
         main_page = self.main_page
         main_page.main_input("Russia")
         assert main_page.get_title("down") == "Россия"
-        main_page.click_on_carousel("численность населения россии")
-        assert main_page.get_title("down") == "146 млн."
+        main_page.click_on_carousel("население россии")
+        assert main_page.get_title("up") == "146 млн."
 
     @pytest.mark.AndroidUI
     def test_calculator(self):
