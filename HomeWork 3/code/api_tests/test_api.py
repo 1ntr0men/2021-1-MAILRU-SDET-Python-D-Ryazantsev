@@ -6,9 +6,9 @@ from api_tests.base_api import BaseApi
 class TestApi(BaseApi):
     @pytest.mark.API
     def test_create_topic(self):
-        new_company_id = self.api_client.post_topic()["id"]
-        assert self.api_client.get_check_company(new_company_id)
-        self.api_client.post_delete_compaign(new_company_id)
+        new_campaign_id = self.api_client.post_topic()["id"]
+        assert self.api_client.get_check_campaign(new_campaign_id)
+        self.api_client.post_delete_campaign(new_campaign_id)
 
     @pytest.mark.API
     def test_create_segment(self):
