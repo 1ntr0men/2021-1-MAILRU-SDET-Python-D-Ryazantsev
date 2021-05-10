@@ -43,21 +43,21 @@ class MysqlClient:
         self.connection.close()
 
     def create_first_table(self):
-        if not inspect(self.engine).has_table('First number'):
-            Base.metadata.tables['First number'].create(self.engine)
+        if not inspect(self.engine).has_table('first_number'):
+            Base.metadata.tables['first_number'].create(self.engine)
 
     def create_second_table(self):
-        if not inspect(self.engine).has_table('Second number'):
-            Base.metadata.tables['Second number'].create(self.engine)
+        if not inspect(self.engine).has_table('second_number'):
+            Base.metadata.tables['second_number'].create(self.engine)
 
     def create_third_table(self):
-        if not inspect(self.engine).has_table('Third number'):
-            Base.metadata.tables['Third number'].create(self.engine)
+        if not inspect(self.engine).has_table('third_number'):
+            Base.metadata.tables['third_number'].create(self.engine)
 
     def create_fourth_table(self):
-        if not inspect(self.engine).has_table('Fourth number'):
-            Base.metadata.tables['Fourth number'].create(self.engine)
+        if not inspect(self.engine).has_table('fourth_number'):
+            Base.metadata.tables['fourth_number'].create(self.engine)
 
     def create_fifth_table(self):
-        if not inspect(self.engine).has_table('Fifth number'):
-            Base.metadata.tables['Fifth number'].create(self.engine)
+        if not inspect(self.engine).has_table('fifth_number'):
+            Base.metadata.tables['fifth_number'].create(self.engine)

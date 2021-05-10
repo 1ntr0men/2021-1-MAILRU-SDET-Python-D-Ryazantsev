@@ -16,7 +16,7 @@ class MySQLBuilder:
 
     def create_in_second(self, req_type, amount):
         new_line = Second(
-            type=req_type,
+            req_type=req_type,
             amount=amount
         )
         self.client.session.add(new_line)
