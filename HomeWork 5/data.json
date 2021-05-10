@@ -1,13 +1,11 @@
 {
-  "First number": 0,
+  "First number": 225133,
   "Second number": {
-    "GET": 122096,
-    "POST": 102504,
-    "PUT": 6,
-    "PATCH": 0,
-    "HEAD": 528,
-    "DELETE": 0,
-    "TRACE": 0
+    "POST": 1,
+    "GET": 1,
+    "HEAD": 1,
+    "PUT": 1,
+    "g369g=%40eval%01%28base64_decode%28%24_POST%5Bz0%5D%29%29%3B&z0=QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwiMCIpO0BzZXRfdGltZV9saW1pdCgwKTtAc2V0X21hZ2ljX3F1b3Rlc19ydW50aW1lKDApO2VjaG8oIi0%2bfCIpOztlY2hvKCJlNTBiNWYyYjRmNjc1NGFmMDljYzg0NWI4YjU4ZTA3NiIpOztlY2hvKCJ8PC0iKTs7ZGllKCk7GET": 1
   },
   "Third number": [
     [

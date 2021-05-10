@@ -5,23 +5,23 @@ parser = argparse.ArgumentParser(description='A test program.')
 parser.add_argument("-j", "--json", action="store_true", help="json output")
 j = parser.parse_args().json
 
-accesslog = open("access.log", "r")
-
 
 def count_of_strings():
-    return sum(1 for _ in accesslog)
+    with open("access.log", "r") as f:
+        return sum(1 for _ in f)
 
 
 def count_of_get_etc():
-    type = {"GET": 0, "POST": 0, "PUT": 0, "PATCH": 0, "HEAD": 0, "DELETE": 0, "TRACE": 0}
+    req_type = {}
     with open("access.log", "r") as f:
         for line in f.readlines():
             req = line.split()[5]
-            for i in type:
-                if i in req:
-                    type[i] += 1
+            if req not in req_type:
+                req_type[req.replace('"', '')] = 1
+            else:
+                req_type[req] += 1
 
-    return type
+    return req_type
 
 
 def top_ten_requests():
@@ -76,5 +76,3 @@ if j:
          "Five number": top_five_500()})
     with open("data.json", "w", encoding="utf-8") as file:
         file.write(jsonData)
-
-accesslog.close()
