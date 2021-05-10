@@ -6,4 +6,3 @@ webdriver-manager
 requests
 Appium-Python-Client
 sqlalchemy
-mysql
