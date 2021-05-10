@@ -15,12 +15,11 @@ def count_of_get_etc():
     req_type = {}
     with open("access.log", "r") as f:
         for line in f.readlines():
-            req = line.split()[5]
+            req = line.split()[5].replace('"', '')
             if req not in req_type:
-                req_type[req.replace('"', '')] = 1
+                req_type[req] = 1
             else:
                 req_type[req] += 1
-
     return req_type
 
 
