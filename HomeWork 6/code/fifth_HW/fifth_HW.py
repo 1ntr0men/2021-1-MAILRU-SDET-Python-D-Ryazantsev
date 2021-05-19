@@ -1,23 +1,27 @@
-def first_number():
-    with open("../tests/access.log", "r") as f:
+from urllib.parse import unquote
+
+
+def count_of_strings():
+    with open("access.log", "r") as f:
         return sum(1 for _ in f)
 
 
-def second_number():
+def count_of_get_etc():
     req_type = {}
-    with open("../tests/access.log", "r") as f:
+    with open("access.log", "r") as f:
         for line in f.readlines():
             req = line.split()[5].replace('"', '')
-            if req not in req_type:
-                req_type[req] = 1
-            else:
-                req_type[req] += 1
+            if len(req) < 15:
+                if req not in req_type:
+                    req_type[req] = 1
+                else:
+                    req_type[req] += 1
     return req_type
 
 
-def third_number():
+def top_ten_requests():
     req = {}
-    with open("../tests/access.log", "r") as f:
+    with open("access.log", "r") as f:
         for line in f.readlines():
             url = line.split()[6]
             if url not in req:
@@ -27,19 +31,19 @@ def third_number():
     return sorted(req.items(), key=lambda i: i[1], reverse=True)[:10]
 
 
-def fourth_number():
+def top_five_400():
     urls = []
-    with open("../tests/access.log", "r") as f:
+    with open("access.log", "r") as f:
         for line in f.readlines():
             l = line.split()
             if l[8][0] == "4":
-                urls.append([l[6], l[8], l[9], l[0]])
-    return sorted(urls, key=lambda i: int(i[2]), reverse=True)[:5]
+                urls.append([unquote(l[6]), l[8], l[9], l[0]])
+        return sorted(urls, key=lambda i: int(i[2]), reverse=True)[:5]
 
 
-def fifth_number():
+def top_five_500():
     urls = []
-    with open("../tests/access.log", "r") as f:
+    with open("access.log", "r") as f:
         for line in f.readlines():
             l = line.split()
             if l[8][0] == "5":

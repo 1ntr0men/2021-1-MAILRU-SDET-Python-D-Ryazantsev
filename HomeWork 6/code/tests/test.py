@@ -21,7 +21,7 @@ class MySQLBase:
 class TestFirst(MySQLBase):
 
     def prepare(self):
-        self.mysql_builder.create_in_first(fifth_HW.first_number())
+        self.mysql_builder.create_in_first(fifth_HW.count_of_strings())
 
     def test(self):
         answer = self.mysql.session.query(First).first().answer
@@ -31,17 +31,17 @@ class TestFirst(MySQLBase):
 class TestSecond(MySQLBase):
 
     def prepare(self):
-        for req_type, amount in fifth_HW.second_number().items():
+        for req_type, amount in fifth_HW.count_of_get_etc().items():
             self.mysql_builder.create_in_second(req_type=req_type, amount=amount)
 
     def test(self):
-        assert len(self.mysql.session.query(Second).all()) == 5
+        assert len(self.mysql.session.query(Second).all()) == 4
 
 
 class TestThird(MySQLBase):
 
     def prepare(self):
-        for item in fifth_HW.third_number():
+        for item in fifth_HW.top_ten_requests():
             self.mysql_builder.create_in_third(url=item[0], amount=item[1])
 
     def test(self):
@@ -51,7 +51,7 @@ class TestThird(MySQLBase):
 class TestFourth(MySQLBase):
 
     def prepare(self):
-        for item in fifth_HW.fourth_number():
+        for item in fifth_HW.top_five_400():
             self.mysql_builder.create_in_fourth(url=item[0], status=item[1], amount=item[2], ip=item[3])
 
     def test(self):
@@ -61,8 +61,8 @@ class TestFourth(MySQLBase):
 class TestFifth(MySQLBase):
 
     def prepare(self):
-        for item in fifth_HW.fifth_number():
+        for item in fifth_HW.top_five_500():
             self.mysql_builder.create_in_fifth(ip=item[0], amount=item[1])
 
     def test(self):
-        assert len(self.mysql.session.query(Fourth).all()) == 5
+        assert len(self.mysql.session.query(Fifth).all()) == 5

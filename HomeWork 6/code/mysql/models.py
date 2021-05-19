@@ -5,11 +5,11 @@ Base = declarative_base()
 
 
 class First(Base):
-    __tablename__ = 'first_number'
+    __tablename__ = 'count_of_strings'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
-        return f"<first_number(" \
+        return f"<count_of_strings(" \
                f"id='{self.id}'," \
                f"answer='{self.answer}'," \
                f")>"
@@ -19,11 +19,11 @@ class First(Base):
 
 
 class Second(Base):
-    __tablename__ = 'second_number'
+    __tablename__ = 'count_of_get_etc'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
-        return f"<second_number(" \
+        return f"<count_of_get_etc(" \
                f"id='{self.id}'," \
                f"req_type='{self.req_type}'," \
                f"amount='{self.amount}'" \
@@ -35,11 +35,11 @@ class Second(Base):
 
 
 class Third(Base):
-    __tablename__ = 'third_number'
+    __tablename__ = 'top_ten_requests'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
-        return f"<third_number(" \
+        return f"<top_ten_requests(" \
                f"id='{self.id}'," \
                f"url='{self.url}'," \
                f"amount='{self.amount}'" \
@@ -51,11 +51,11 @@ class Third(Base):
 
 
 class Fourth(Base):
-    __tablename__ = 'fourth_number'
+    __tablename__ = 'top_five_400'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
-        return f"<fourth_number(" \
+        return f"<top_five_400(" \
                f"id='{self.id}'," \
                f"url='{self.url}'," \
                f"status='{self.status}'" \
@@ -71,11 +71,11 @@ class Fourth(Base):
 
 
 class Fifth(Base):
-    __tablename__ = 'fifth_number'
+    __tablename__ = 'top_five_500'
     __table_args__ = {'mysql_charset': 'utf8'}
 
     def __repr__(self):
-        return f"<fifth_number(" \
+        return f"<top_five_500(" \
                f"id='{self.id}'," \
                f"ip='{self.ip}'," \
                f"amount='{self.amount}'" \
