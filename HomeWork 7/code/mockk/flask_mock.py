@@ -1,4 +1,5 @@
 import json
+import threading
 
 from flask import Flask, jsonify, request
 
@@ -7,8 +8,8 @@ import settings
 app = Flask(__name__)
 
 SURNAME_DATA = {}
-app_data = {"Ilya": {"id": 1, "surname": "Kirillov"}}
-user_id_seq = 2
+app_data = {}
+user_id_seq = 1
 
 
 @app.route('/add_user', methods=["POST"])
@@ -54,8 +55,22 @@ def update_surname():
         return jsonify(f'User don`t found'), 404
 
 
-if __name__ == '__main__':
-    host = settings.MOCK_HOST
-    port = settings.MOCK_PORT
+def run_mock():
+    server = threading.Thread(target=app.run, kwargs={
+        'host': settings.MOCK_HOST,
+        'port': settings.MOCK_PORT
+    })
+    server.start()
+    return server
 
-    app.run(host, port)
+
+def shutdown_mock():
+    terminate_func = request.environ.get('werkzeug.server.shutdown')
+    if terminate_func:
+        terminate_func()
+
+
+@app.route('/shutdown')
+def shutdown():
+    shutdown_mock()
+    return jsonify(f'OK, exiting'), 200

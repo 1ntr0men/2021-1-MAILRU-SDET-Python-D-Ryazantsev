@@ -25,7 +25,8 @@ class Client:
             else:
                 break
         data = "".join(total_data).splitlines()
-        self.logger.write(str(data) + "\n")
+        self.logger.write(str(data) + "\n\n")
+        self.logger.write("-" * 50 + "\n\n")
         return data
 
     def add_user(self, name, surname):
@@ -35,6 +36,7 @@ class Client:
                   f"Content-type: application/json\r\n" \
                   f"Content-Length: {len(j)}\r\n\r\n" \
                   f"{j}\r\n"
+        self.logger.write(request)
         self.client.send(request.encode())
 
         return self._data()
@@ -43,6 +45,7 @@ class Client:
         params = f'/get_user/{name}'
         request = f'GET {params} HTTP/1.0\r\n' \
                   f'Host:{self.host}\r\n\r\n'
+        self.logger.write(request)
         self.client.send(request.encode())
 
         return self._data()
@@ -51,6 +54,7 @@ class Client:
         params = f'/delete_user/{name}'
         request = f'DELETE {params} HTTP/1.0\r\n' \
                   f'Host:{self.host}\r\n\r\n'
+        self.logger.write(request)
         self.client.send(request.encode())
 
         return self._data()
@@ -62,6 +66,7 @@ class Client:
                   f"Content-type: application/json\r\n" \
                   f"Content-Length: {len(j)}\r\n\r\n" \
                   f"{j}\r\n"
+        self.logger.write(request)
         self.client.send(request.encode())
 
         return self._data()
