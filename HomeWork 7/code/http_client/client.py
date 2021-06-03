@@ -4,36 +4,35 @@ import settings
 
 
 class Client:
-
     def __init__(self):
         self.host = settings.MOCK_HOST
         self.port = int(settings.MOCK_PORT)
         self.url = f'http://{self.host}:{self.port}'
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.settimeout(0.1)
+
         # client.connect((self.host, self.port))
-        self.client = client
 
         self.logger = open('/tmp/logger.log', 'a')
 
     def connect(self):
         try:
+            self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client.connect((self.host, self.port))
         except:
             pass
 
+    def check_data(self, name):
+        return name in self.get_data().keys()
+
     def _data(self):
         total_data = []
         while True:
-            self.connect()
-            try:
-                data = self.client.recv(4096)
-            except:
-                self.connect()
-                data = self.client.recv(4096)
+            # self.connect()
+            data = self.client.recv(4096)
+            # self.client.detach()
             if data:
                 total_data.append(data.decode())
             else:
+                self.client.close()
                 break
         data = "".join(total_data).splitlines()
         self.logger.write(str(data) + "\n\n")
@@ -41,7 +40,6 @@ class Client:
         return data
 
     def add_user(self, name, surname):
-
         j = json.dumps({"name": name, "surname": surname})
         request = f"POST /add_user HTTP/1.0\r\n" \
                   f"Host:{self.host}\r\n" \
@@ -51,11 +49,11 @@ class Client:
         self.logger.write(request)
         self.connect()
         self.client.send(request.encode())
+        # self.client.detach()
 
         return self._data()
 
     def get_user(self, name):
-
         params = f'/get_user/{name}'
         request = f'GET {params} HTTP/1.0\r\n' \
                   f'Host:{self.host}\r\n\r\n'
@@ -66,13 +64,13 @@ class Client:
         return self._data()
 
     def delete_user(self, name):
-
         params = f'/delete_user/{name}'
         request = f'DELETE {params} HTTP/1.0\r\n' \
                   f'Host:{self.host}\r\n\r\n'
         self.logger.write(request)
         self.connect()
         self.client.send(request.encode())
+        # self.client.detach()
 
         return self._data()
 
@@ -87,8 +85,19 @@ class Client:
 
         self.connect()
         self.client.send(request.encode())
+        # self.client.detach()
 
         return self._data()
+
+    def get_data(self):
+        params = f'/get_data'
+        request = f'GET {params} HTTP/1.0\r\n' \
+                  f'Host:{self.host}\r\n\r\n'
+        self.logger.write(request)
+        self.connect()
+        self.client.send(request.encode())
+        # self.client.detach()
+        return json.loads(self._data()[-1])
 
     def close(self):
         self.client.close()

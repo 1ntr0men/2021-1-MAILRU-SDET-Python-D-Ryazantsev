@@ -55,6 +55,11 @@ def update_surname():
         return jsonify(f'User don`t found'), 404
 
 
+@app.route('/get_data', methods=["GET"])
+def get_data():
+    return jsonify(app_data), 200
+
+
 def run_mock():
     server = threading.Thread(target=app.run, kwargs={
         'host': settings.MOCK_HOST,
