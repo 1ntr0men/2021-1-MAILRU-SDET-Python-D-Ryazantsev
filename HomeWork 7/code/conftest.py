@@ -1,10 +1,12 @@
 import os
 import time
 
+import pytest
 import requests
 from requests.exceptions import ConnectionError
 
 import settings
+from http_client.client import Client
 from mockk import flask_mock
 
 repo_root = os.path.abspath(os.path.join(__file__, os.pardir))  # code
@@ -42,3 +44,10 @@ def stop_mock():
 def pytest_unconfigure(config):
     if not hasattr(config, 'workerinput'):
         stop_mock()
+
+
+@pytest.fixture(scope="function")
+def client():
+    client = Client()
+    yield client
+    client.close()
