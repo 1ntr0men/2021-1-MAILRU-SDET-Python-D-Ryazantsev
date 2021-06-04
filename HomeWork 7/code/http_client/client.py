@@ -9,8 +9,6 @@ class Client:
         self.port = int(settings.MOCK_PORT)
         self.url = f'http://{self.host}:{self.port}'
 
-        # client.connect((self.host, self.port))
-
         self.logger = open('/tmp/logger.log', 'a')
 
     def connect(self):
@@ -26,9 +24,7 @@ class Client:
     def _data(self):
         total_data = []
         while True:
-            # self.connect()
             data = self.client.recv(4096)
-            # self.client.detach()
             if data:
                 total_data.append(data.decode())
             else:
@@ -49,7 +45,6 @@ class Client:
         self.logger.write(request)
         self.connect()
         self.client.send(request.encode())
-        # self.client.detach()
 
         return self._data()
 
@@ -70,7 +65,6 @@ class Client:
         self.logger.write(request)
         self.connect()
         self.client.send(request.encode())
-        # self.client.detach()
 
         return self._data()
 
@@ -85,7 +79,6 @@ class Client:
 
         self.connect()
         self.client.send(request.encode())
-        # self.client.detach()
 
         return self._data()
 
@@ -96,7 +89,7 @@ class Client:
         self.logger.write(request)
         self.connect()
         self.client.send(request.encode())
-        # self.client.detach()
+
         return json.loads(self._data()[-1])
 
     def close(self):
