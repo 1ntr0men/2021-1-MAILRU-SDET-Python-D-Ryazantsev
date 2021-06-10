@@ -8,7 +8,7 @@ from mysql.sql_client import MysqlClient
 from ui.pages.base_page import BasePage
 from ui.pages.login_page import LoginPage
 from ui.pages.main_page import MainPage
-from utils.functions_for_tests import get_valid_name, get_invalid_name, fake
+from utils.functions_for_tests import get_valid_name, fake
 
 
 @pytest.fixture(scope="function")

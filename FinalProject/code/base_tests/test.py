@@ -8,13 +8,10 @@ from utils.functions_for_tests import get_valid_name, get_invalid_name, fake
 class TestUI(BaseCase):
 
     @pytest.mark.UI
-    @pytest.mark.parametrize(
-        "username, email,  password",
-        [
-            pytest.param(get_valid_name(), fake.email(), fake.password())
-        ]
-    )
-    def test_sign_in(self, username, email, password):
+    def test_sign_in(self):
+        username = get_valid_name()
+        email = fake.email()
+        password = fake.password()
         lp = self.login_page
         lp.sign_up(username, email, password)
         assert self.mysql.check_availability(username)
@@ -32,7 +29,7 @@ class TestUI(BaseCase):
         [
             pytest.param("A" * 17, "password", "Incorrect username length"),
             pytest.param("NoTeXiSt", "password", "Invalid username or password")
-        ]
+        ], ids=["too_many_long", "not_exist"]
     )
     def test_incorrect_sign_in(self, username, password, fail_string):
         lp = self.login_page
@@ -40,25 +37,19 @@ class TestUI(BaseCase):
         assert lp.check_fail(fail_string)
 
     @pytest.mark.UI
-    @pytest.mark.parametrize(
-        "username, email,  password",
-        [
-            pytest.param(get_valid_name(), fake.email(), fake.password())
-        ]
-    )
-    def test_sign_up_with_not_check_active(self, username, email, password):
+    def test_sign_up_with_not_check_active(self):
+        username = get_valid_name()
+        email = fake.email()
+        password = fake.password()
         self.login_page.sign_up(username, email, password)
         assert self.mysql.check_availability(username)
         self.mysql.delete_user(username)
 
     @pytest.mark.UI
-    @pytest.mark.parametrize(
-        "username, email,  password",
-        [
-            pytest.param(get_valid_name(), fake.email(), fake.password())
-        ]
-    )
-    def test_sign_up_with_check_active(self, username, email, password):
+    def test_sign_up_with_check_active(self):
+        username = get_valid_name()
+        email = fake.email()
+        password = fake.password()
         self.login_page.sign_up(username, email, password)
         assert self.mysql.check_availability(username)
         assert self.mysql.check_active(username)
@@ -72,7 +63,7 @@ class TestUI(BaseCase):
             pytest.param(get_invalid_name(), fake.email(), fake.password(), "Incorrect username length"),
             pytest.param(get_invalid_name(), fake.email(), fake.password(),
                          "Incorrect username length and Passwords must match")
-        ]
+        ], ids=["too_many_long", "too_many_short", "two_bugs"]
     )
     def test_incorrect_sign_up(self, username, email, password, fail_string):
         lp = self.login_page
