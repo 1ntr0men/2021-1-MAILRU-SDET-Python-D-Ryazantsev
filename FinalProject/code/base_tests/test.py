@@ -23,6 +23,8 @@ class TestUI(BaseCase):
 
         lp.sign_in(username, password)
         assert lp.driver.current_url == "http://127.0.0.1:8080/welcome/"
+        print(self.mysql.check_active(username))
+        assert self.mysql.check_active(username)
 
     @pytest.mark.UI
     @pytest.mark.parametrize(
@@ -44,9 +46,22 @@ class TestUI(BaseCase):
             pytest.param(get_valid_name(), fake.email(), fake.password())
         ]
     )
-    def test_sign_up(self, username, email, password):
+    def test_sign_up_with_not_check_active(self, username, email, password):
         self.login_page.sign_up(username, email, password)
         assert self.mysql.check_availability(username)
+        self.mysql.delete_user(username)
+
+    @pytest.mark.UI
+    @pytest.mark.parametrize(
+        "username, email,  password",
+        [
+            pytest.param(get_valid_name(), fake.email(), fake.password())
+        ]
+    )
+    def test_sign_up_with_check_active(self, username, email, password):
+        self.login_page.sign_up(username, email, password)
+        assert self.mysql.check_availability(username)
+        assert self.mysql.check_active(username)
         self.mysql.delete_user(username)
 
     @pytest.mark.UI
@@ -177,9 +192,16 @@ class TestUI(BaseCase):
         ]
         mp = logined_driver
         count = 0
-        for i in range(20):
+        for i in range(50):
             if mp.get_dzen() in dzen:
                 count += 1
             self.driver.refresh()
         assert count > 0
         print(count)
+
+    def test_logout(self):
+        lp = self.login_page
+        lp.sign_up("username", "email@email.email", "password")
+        lp.logout()
+        assert self.driver.current_url == "http://127.0.0.1:8080/login"
+        assert not self.mysql.check_active("username")

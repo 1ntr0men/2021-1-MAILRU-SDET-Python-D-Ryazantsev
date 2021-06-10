@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 
 
 class BasePageLocators:
-    pass
+    LOGOUT_BUTTON_LOCATOR = (By.XPATH, "//a[contains(text(),'Logout')]")
 
 
 class LoginPageLocators(BasePageLocators):
@@ -13,7 +13,6 @@ class LoginPageLocators(BasePageLocators):
 
     SUBMIT_BUTTON_LOCATOR = (By.ID, "submit")
     CREATE_ACCOUNT_BUTTON_LOCATOR = (By.XPATH, "//a[contains(text(),'Create an account')]")
-    LOGOUT_BUTTON_LOCATOR = (By.XPATH, "//a[contains(text(),'Logout')]")
 
     ACCEPT_CHECKBOX_LOCATOR = (By.ID, "term")
 

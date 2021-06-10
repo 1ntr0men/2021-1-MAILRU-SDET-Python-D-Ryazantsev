@@ -38,6 +38,4 @@ class LoginPage(BasePage):
         fail = self.get_text(self.locator.FAIL_STRING_LOCATOR)
         return fail == fail_string
 
-    def logout(self):
-        logout = self.find(self.locator.LOGOUT_BUTTON_LOCATOR)
-        logout.click()
+

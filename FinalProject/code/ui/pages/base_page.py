@@ -78,4 +78,6 @@ class BasePage(object):
         item = self.find(locator)
         ActionChains(self.driver).move_to_element(item).perform()
 
-
+    def logout(self):
+        logout = self.find(self.locator.LOGOUT_BUTTON_LOCATOR)
+        logout.click()

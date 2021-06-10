@@ -60,3 +60,8 @@ class MysqlClient:
     def clear_test_users(self):
         self.session.query(TestUsers).delete()
         self.session.commit()
+
+    def check_active(self, username):
+        self.session.commit()
+        username = self.session.query(TestUsers).filter_by(username=username).first()
+        return username.active

@@ -37,5 +37,3 @@ class MainPage(BasePage):
 
     def get_dzen(self):
         return self.get_text(self.locator.DZEN_OF_PYTHON_LOCATOR)
-
-
